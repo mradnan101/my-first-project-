@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ENERGY DRINK — Unleash Pure Focus</title>
+  <meta name="description" content="Clean, explosive natural energy to fuel focus and smash limits. Premium bioactive energy drink with zero sugar and sustained mental clarity.">
+  
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@600;700;800;900&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+
+  <!-- 3D & Animation Libraries (Three.js + GSAP for Awwwards-Level Interaction) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  
+  <!-- Embedded Model Fallback for 100% Offline / Local CORS-Proof Loading -->
+  <script src="model_data.js"></script>
+</head>
+<body>
+  <!-- Dynamic Fluid / Liquid / Oily Glass Canvas -->
+  <canvas id="fluidCanvas" class="fluid-canvas" aria-hidden="true"></canvas>
+
+  <!-- Interactive 3D WebGL Canvas for the Can Model -->
+  <div id="canvas3d-container" class="canvas3d-container" aria-label="3D Interactive Energy Drink Can">
+    <div class="model-loading-indicator" id="modelLoader">
+      <div class="loader-spinner"></div>
+      <span>Initializing 3D Can...</span>
+    </div>
+  </div>
+
+  <!-- Glass Vignette & Noise Texture Overlay -->
+  <div class="liquid-vignette"></div>
+  <div class="glass-noise-layer"></div>
+
+  <!-- Main Viewport Layout -->
+  <div class="page-container">
+    
+    <!-- Top Header Navigation -->
+    <header class="header">
+      <div class="nav-left">
+        <a href="index.html" class="nav-btn nav-home active" id="homeBtn">
+          <span>Home</span>
+          <span class="btn-sheen"></span>
+        </a>
+      </div>
+
+      <!-- Center Nav Links -->
+      <nav class="nav-center">
+        <a href="flavors.html" class="nav-link">Flavors</a>
+        <a href="#formula" class="nav-link">Formula</a>
+        <a href="#compare" class="nav-link">Compare</a>
+      </nav>
+
+      <div class="nav-right">
+        <a href="flavors.html" class="nav-pill-secondary">
+          <span>Explore 2026 Drops</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <button class="nav-btn nav-contact" id="contactBtn">
+          <span>Contact</span>
+          <span class="btn-sheen"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Hero Center Section -->
+    <main class="hero-section">
+      
+      <!-- Big Center Title with Liquid Sheen -->
+      <div class="hero-title-container">
+        <h1 class="hero-title" id="heroTitle">
+          <span class="title-text">energy drink</span>
+          <span class="title-reflection" aria-hidden="true">energy drink</span>
+        </h1>
+      </div>
+
+      <!-- Bottom Content Area -->
+      <div class="hero-content-grid">
+        
+        <!-- Left Side: Tagline & CTA -->
+        <div class="hero-bottom-left">
+          <p class="hero-tagline">
+            Clean, <span class="highlight-word">explosive</span> natural energy<br>
+            to fuel <span class="highlight-glow">focus</span> and smash limits.
+          </p>
+
+          <div class="cta-wrapper">
+            <button class="order-btn" id="orderNowBtn">
+              <span class="order-btn-glow"></span>
+              <span class="btn-content">
+                <span class="btn-text">order now</span>
+                <!-- Crisp, Ultra-Modern Minimalist Shopping Cart SVG -->
+                <svg class="cart-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M3 3h2.5l2.4 11.2a1.8 1.8 0 0 0 1.8 1.4h8.8a1.8 1.8 0 0 0 1.8-1.4L22 6.5H6.5" stroke="#000000" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="10" cy="19.5" r="1.6" fill="#000000"/>
+                  <circle cx="18" cy="19.5" r="1.6" fill="#000000"/>
+                  <path d="M12.5 9.5h3.5" stroke="#000000" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </span>
+            </button>
+            <span class="cta-note">⚡ Drag the 3D can to rotate • Free Express Shipping</span>
+          </div>
+        </div>
+
+        <!-- Right Side: Specs Widget with Glowing Animation & Counter -->
+        <div class="hero-bottom-right">
+          <div class="specs-glass-card animated-specs" id="specsCard">
+            <div class="specs-ambient-glow"></div>
+            <div class="spec-item">
+              <div class="spec-val-wrap">
+                <span class="spec-val counter" data-target="0">0</span><span class="spec-unit">g</span>
+              </div>
+              <span class="spec-label">Sugar</span>
+            </div>
+            <div class="spec-divider"></div>
+            <div class="spec-item">
+              <div class="spec-val-wrap">
+                <span class="spec-val counter" data-target="200">0</span><span class="spec-unit">mg</span>
+              </div>
+              <span class="spec-label">Natural Caffeine</span>
+            </div>
+            <div class="spec-divider"></div>
+            <div class="spec-item">
+              <div class="spec-val-wrap">
+                <span class="spec-val counter" data-target="4">0</span><span class="spec-unit">x</span>
+              </div>
+              <span class="spec-label">Electrolytes</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Liquid Mouse Interactive Indicator -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+  </div>
+
+  <!-- =========================================================================
+       SECTION 2: Clean Bioactive Formula Breakdown (Liquid Death / Ghost Vibe)
+       ========================================================================= -->
+  <section class="formula-section" id="formula">
+    <div class="section-container">
+      <div class="section-tag">⚡ The Formula</div>
+      <h2 class="section-headline">Zero Crash. Zero Sugar.<br><span class="neon-gradient">Maximum Neural Velocity.</span></h2>
+      <p class="section-subtext">Engineered for competitive athletes, gamers, and founders who demand sustained laser focus without jittery spikes.</p>
+
+      <div class="formula-cards-grid">
+        <div class="formula-card">
+          <div class="formula-icon-box">🌱</div>
+          <h3 class="formula-title">Green Coffeeberry®</h3>
+          <p class="formula-desc">200mg ultra-clean caffeine extracted from organic whole coffee berries for smooth, jitter-free energy.</p>
+          <div class="formula-pill">200mg Dosage</div>
+        </div>
+
+        <div class="formula-card featured">
+          <div class="formula-icon-box">🧠</div>
+          <h3 class="formula-title">Cognizin® Citicoline</h3>
+          <p class="formula-desc">Clinically researched nootropic that fuels brain cell membrane synthesis, sharp focus, and memory recall.</p>
+          <div class="formula-pill featured-pill">Clinical Grade</div>
+        </div>
+
+        <div class="formula-card">
+          <div class="formula-icon-box">⚡</div>
+          <h3 class="formula-title">Himalayan Trace Salts</h3>
+          <p class="formula-desc">4x natural electrolytes with bioavailable potassium and magnesium to maintain cellular hydration.</p>
+          <div class="formula-pill">Hydration Matrix</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       SECTION 3: Comparison (Our Drink vs Traditional Sugary Drinks)
+       ========================================================================= -->
+  <section class="compare-section" id="compare">
+    <div class="section-container">
+      <div class="section-tag">🥊 Unmatched Cleanliness</div>
+      <h2 class="section-headline">Why Traditional Energy Drinks <span class="neon-gradient">Fail You</span></h2>
+      
+      <div class="compare-table-wrapper glass-table">
+        <div class="compare-row compare-header">
+          <span class="col-feature">Benchmark</span>
+          <span class="col-us">⚡ ENERGY DRINK</span>
+          <span class="col-them">Generic Energy Drinks</span>
+        </div>
+        <div class="compare-row">
+          <span class="col-feature">Added Sugars</span>
+          <span class="col-us win">0g (Zero Added Sugar)</span>
+          <span class="col-them loss">38g - 54g (High Fructose)</span>
+        </div>
+        <div class="compare-row">
+          <span class="col-feature">Energy Curve</span>
+          <span class="col-us win">6+ Hours Sustained Focus</span>
+          <span class="col-them loss">60-Min Spike & Hard Crash</span>
+        </div>
+        <div class="compare-row">
+          <span class="col-feature">Nootropic Matrix</span>
+          <span class="col-us win">Cognizin® Citicoline + L-Theanine</span>
+          <span class="col-them loss">None (Raw Sugar + Synthetic)</span>
+        </div>
+        <div class="compare-row">
+          <span class="col-feature">Caffeine Source</span>
+          <span class="col-us win">Organic Green Coffeeberry</span>
+          <span class="col-them loss">Lab-Synthesized Anhydrous</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       SECTION 4: Brand Call to Action Banner
+       ========================================================================= -->
+  <section class="cta-banner-section">
+    <div class="section-container">
+      <div class="cta-banner-card">
+        <div class="cta-banner-glow"></div>
+        <h2 class="cta-banner-title">Ready to Fuel Your Peak State?</h2>
+        <p class="cta-banner-desc">Taste all four iconic 2026 flavors with a risk-free 30-day taste guarantee.</p>
+        <div class="banner-buttons">
+          <a href="flavors.html" class="banner-btn primary">
+            <span>Explore Flavors</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <button class="banner-btn secondary" onclick="document.getElementById('orderNowBtn').click()">
+            <span>Quick Order 12-Pack</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="section-container footer-content">
+      <div class="footer-brand">
+        <span class="footer-logo">energy drink</span>
+        <p class="footer-copy">Crafted for athletes, coders, and disruptors worldwide. 100% Recyclable Aluminum.</p>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="flavors.html">Flavors (Page 2)</a>
+        <a href="#formula">Formula</a>
+        <a href="#compare">Compare</a>
+        <a href="#contact" id="footerContactBtn">Contact</a>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 ENERGY DRINK INC. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Glassmorphism Order Modal -->
+  <div class="modal-overlay" id="orderModal">
+    <div class="modal-card glass-modal">
+      <button class="modal-close" id="closeOrderModal" aria-label="Close modal">&times;</button>
+      
+      <div class="modal-header">
+        <span class="modal-pill">⚡ Direct Cold-Brewed Energy</span>
+        <h2 class="modal-title">Select Your Edition</h2>
+        <p class="modal-subtitle">Naturally caffeinated with whole coffeeberry extract, L-Theanine, and electrolytes.</p>
+      </div>
+      
+      <div class="flavor-grid">
+        <div class="flavor-card active" data-flavor="Lime Surge" data-price="34.99">
+          <div class="flavor-indicator lime"></div>
+          <div class="flavor-info">
+            <span class="flavor-name">Lime Surge</span>
+            <span class="flavor-desc">Electrifying crisp lime & guarana</span>
+          </div>
+          <span class="flavor-price">$34.99</span>
+        </div>
+
+        <div class="flavor-card" data-flavor="Emerald Rush" data-price="34.99">
+          <div class="flavor-indicator blast"></div>
+          <div class="flavor-info">
+            <span class="flavor-name">Emerald Rush</span>
+            <span class="flavor-desc">Crisp green apple & nootropics</span>
+          </div>
+          <span class="flavor-price">$34.99</span>
+        </div>
+
+        <div class="flavor-card" data-flavor="Solar Volt" data-price="34.99">
+          <div class="flavor-indicator berry"></div>
+          <div class="flavor-info">
+            <span class="flavor-name">Solar Volt</span>
+            <span class="flavor-desc">Wild tropical yuzu & ginseng</span>
+          </div>
+          <span class="flavor-price">$34.99</span>
+        </div>
+      </div>
+
+      <div class="quantity-row">
+        <span class="quantity-label">Choose Pack Size</span>
+        <div class="quantity-picker">
+          <button class="qty-btn" id="qtyMinus" aria-label="Decrease quantity">-</button>
+          <span class="qty-value" id="qtyValue">12 Pack</span>
+          <button class="qty-btn" id="qtyPlus" aria-label="Increase quantity">+</button>
+        </div>
+      </div>
+
+      <div class="total-row">
+        <span>Order Summary</span>
+        <span class="total-amount" id="orderTotal">$34.99</span>
+      </div>
+
+      <button class="modal-action-btn" id="checkoutBtn">
+        <span>Instant Checkout</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Glassmorphism Contact Modal -->
+  <div class="modal-overlay" id="contactModal">
+    <div class="modal-card glass-modal">
+      <button class="modal-close" id="closeContactModal" aria-label="Close modal">&times;</button>
+      
+      <div class="modal-header">
+        <span class="modal-pill">💬 Global Energy HQ</span>
+        <h2 class="modal-title">Get in Touch</h2>
+        <p class="modal-subtitle">Wholesale distributions, sponsorship inquiries, or retail partnerships.</p>
+      </div>
+
+      <form class="contact-form" id="contactForm" onsubmit="event.preventDefault(); handleContactSubmit();">
+        <div class="form-group">
+          <label for="contactName">Your Name</label>
+          <input type="text" id="contactName" placeholder="e.g. Leo Vance" required>
+        </div>
+        <div class="form-group">
+          <label for="contactEmail">Business / Personal Email</label>
+          <input type="email" id="contactEmail" placeholder="leo@domain.com" required>
+        </div>
+        <div class="form-group">
+          <label for="contactMsg">Your Inquiry</label>
+          <textarea id="contactMsg" rows="3" placeholder="Tell us how we can collaborate..." required></textarea>
+        </div>
+        <button type="submit" class="modal-action-btn">
+          <span>Send Transmission</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toastNotification">
+    <div class="toast-glow"></div>
+    <span class="toast-icon">✓</span>
+    <span class="toast-text" id="toastText">Order added to cart!</span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flavors — 2026 Drop Collection | ENERGY DRINK</title>
+  <meta name="description" content="Explore our complete bioactive flavor lineup. Zero sugar, 200mg clean green coffeeberry caffeine, and clinical nootropics.">
+  
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@600;700;800;900&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+
+  <!-- 3D & Animation Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  
+  <!-- Embedded Model Fallback -->
+  <script src="model_data.js"></script>
+</head>
+<body class="flavors-page">
+  <!-- Dynamic Fluid / Liquid / Oily Glass Canvas -->
+  <canvas id="fluidCanvas" class="fluid-canvas" aria-hidden="true"></canvas>
+
+  <!-- Glass Vignette & Noise Texture Overlay -->
+  <div class="liquid-vignette"></div>
+  <div class="glass-noise-layer"></div>
+
+  <div class="page-container">
+    
+    <!-- Top Header Navigation -->
+    <header class="header">
+      <div class="nav-left">
+        <a href="index.html" class="nav-btn nav-home" id="homeBtn">
+          <span>Home</span>
+          <span class="btn-sheen"></span>
+        </a>
+      </div>
+
+      <nav class="nav-center">
+        <a href="flavors.html" class="nav-link active">Flavors</a>
+        <a href="index.html#formula" class="nav-link">Formula</a>
+        <a href="index.html#compare" class="nav-link">Compare</a>
+      </nav>
+
+      <div class="nav-right">
+        <button class="nav-btn nav-contact" id="contactBtn">
+          <span>Contact</span>
+          <span class="btn-sheen"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Flavors Showcase Hero -->
+    <main class="flavors-hero">
+      
+      <div class="flavors-header-text">
+        <div class="section-tag">🔥 2026 DROP ARCHIVE</div>
+        <h1 class="flavors-title">
+          Choose Your <span class="flavor-dynamic-name" id="dynamicFlavorName">Neon Lime</span>
+        </h1>
+        <p class="flavors-subtitle">
+          Engineered with 200mg organic caffeine, Himalayan electrolytes, and zero sugar.
+        </p>
+      </div>
+
+      <!-- Interactive Flavor Switcher Bar -->
+      <div class="flavor-tabs-container">
+        <button class="flavor-tab-btn active" data-flavor-id="neon-lime" data-color="#59ff00" data-name="Neon Lime" data-desc="Electrifying key lime, crisp green apple, and smooth herbal guarana.">
+          <span class="tab-dot lime"></span>
+          <span>Neon Lime</span>
+        </button>
+        <button class="flavor-tab-btn" data-flavor-id="cyber-berry" data-color="#c084fc" data-name="Cyber Berry" data-desc="Wild dark blackberries, Brazilian açai, and crushed antioxidant currants.">
+          <span class="tab-dot berry"></span>
+          <span>Cyber Berry</span>
+        </button>
+        <button class="flavor-tab-btn" data-flavor-id="solar-surge" data-color="#fb923c" data-name="Solar Surge" data-desc="Sun-drenched blood orange, tropical passionfruit, and Japanese yuzu zest.">
+          <span class="tab-dot solar"></span>
+          <span>Solar Surge</span>
+        </button>
+        <button class="flavor-tab-btn" data-flavor-id="arctic-frost" data-color="#38bdf8" data-name="Arctic Frost" data-desc="Glacial mountain blue raspberry infused with crisp polar mint crispness.">
+          <span class="tab-dot frost"></span>
+          <span>Arctic Frost</span>
+        </button>
+      </div>
+
+      <!-- Interactive Center Stage: 3D-Styled Can Display + Specs -->
+      <div class="can-stage-grid">
+        
+        <!-- Left: Flavor Profile & Sensor Data -->
+        <div class="stage-card flavor-sensor-card glass-panel">
+          <div class="panel-header">
+            <span class="panel-tag">SENSOR PROFILE</span>
+            <span class="panel-batch">BATCH #2026-X</span>
+          </div>
+
+          <h3 class="sensor-headline" id="flavorProfileHeadline">Clean, crisp citrus shockwave with zero lingering aftertaste.</h3>
+          
+          <div class="intensity-meters">
+            <div class="meter-row">
+              <span class="meter-label">Energy Velocity</span>
+              <div class="meter-bar"><div class="meter-fill" id="meterEnergy" style="width: 95%;"></div></div>
+              <span class="meter-val">9.5/10</span>
+            </div>
+            <div class="meter-row">
+              <span class="meter-label">Carbonation Crispness</span>
+              <div class="meter-bar"><div class="meter-fill" id="meterFizz" style="width: 90%;"></div></div>
+              <span class="meter-val">9.0/10</span>
+            </div>
+            <div class="meter-row">
+              <span class="meter-label">Tartness & Tang</span>
+              <div class="meter-bar"><div class="meter-fill" id="meterTart" style="width: 82%;"></div></div>
+              <span class="meter-val">8.2/10</span>
+            </div>
+          </div>
+
+          <div class="sensor-perks">
+            <span class="sensor-perk-badge">✓ 0 Calories</span>
+            <span class="sensor-perk-badge">✓ 0 Artificial Dyes</span>
+            <span class="sensor-perk-badge">✓ Non-GMO</span>
+          </div>
+        </div>
+
+        <!-- Center: Interactive 3D Can Stage on Page 2 -->
+        <div class="can-center-display">
+          <div class="can-glow-halo" id="canGlowHalo"></div>
+          
+          <div id="canvas3d-stage" class="stage-3d-canvas-wrap">
+            <!-- Three.js Canvas injected here -->
+          </div>
+        </div>
+
+        <!-- Right: Purchasing Card -->
+        <div class="stage-card purchase-card glass-panel">
+          <div class="panel-header">
+            <span class="panel-tag">DIRECT DELIVERY</span>
+            <span class="in-stock-pill">● In Stock</span>
+          </div>
+
+          <div class="price-display-block">
+            <span class="current-price" id="canPagePrice">$34.99</span>
+            <span class="per-can-calc">($2.91 / can)</span>
+          </div>
+
+          <div class="pack-selector-pill">
+            <button class="pack-opt-btn active" data-pack="12" data-price="34.99">12 Pack</button>
+            <button class="pack-opt-btn" data-pack="24" data-price="64.99">24 Case (Save 15%)</button>
+          </div>
+
+          <button class="order-btn full-width" id="orderFlavorBtn">
+            <span class="order-btn-glow"></span>
+            <span class="btn-content">
+              <span class="btn-text">add to cart</span>
+              <svg class="cart-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 3h2.5l2.4 11.2a1.8 1.8 0 0 0 1.8 1.4h8.8a1.8 1.8 0 0 0 1.8-1.4L22 6.5H6.5" stroke="#000000" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="10" cy="19.5" r="1.6" fill="#000000"/>
+                <circle cx="18" cy="19.5" r="1.6" fill="#000000"/>
+                <path d="M12.5 9.5h3.5" stroke="#000000" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+          </button>
+
+          <div class="shipping-guarantee">
+            <span>🚀 <strong>Free express dispatch</strong> — arrives in 24-48 hrs</span>
+            <span>🛡️ 30-Day empty-can refund guarantee</span>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- Liquid Mouse Interactive Indicator -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+  </div>
+
+  <!-- Real Drinker Reviews Ticker -->
+  <section class="reviews-section">
+    <div class="section-container">
+      <div class="section-tag">⭐ UNCENSORED FEEDBACK</div>
+      <h2 class="section-headline">Loved by 65,000+ Athletes & Creators</h2>
+
+      <div class="reviews-grid">
+        <div class="review-card glass-panel">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"As a competitive marathon runner and software engineer, I hate typical energy drink sugar crashes. Neon Lime is pure laser focus for 6 straight hours."</p>
+          <div class="reviewer-meta">
+            <span class="reviewer-name">Marcus K.</span>
+            <span class="reviewer-tag">Verified Elite Runner</span>
+          </div>
+        </div>
+
+        <div class="review-card glass-panel">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Cyber Berry tastes like liquid nostalgia with zero chemical aftertaste. Replaced my afternoon cold brew completely."</p>
+          <div class="reviewer-meta">
+            <span class="reviewer-name">Elena Rostova</span>
+            <span class="reviewer-tag">Game Streamer</span>
+          </div>
+        </div>
+
+        <div class="review-card glass-panel">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"The nootropics are real. No jitters, no sweaty palms. Just smooth executive clarity during high-stakes presentations."</p>
+          <div class="reviewer-meta">
+            <span class="reviewer-name">David Thorne</span>
+            <span class="reviewer-tag">Fintech Founder</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="section-container footer-content">
+      <div class="footer-brand">
+        <span class="footer-logo">energy drink</span>
+        <p class="footer-copy">Crafted for athletes, coders, and disruptors worldwide. 100% Recyclable Aluminum.</p>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="flavors.html">Flavors (Page 2)</a>
+        <a href="index.html#formula">Formula</a>
+        <a href="index.html#compare">Compare</a>
+        <a href="#contact" id="footerContactBtn">Contact</a>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 ENERGY DRINK INC. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Contact Modal -->
+  <div class="modal-overlay" id="contactModal">
+    <div class="modal-card glass-modal">
+      <button class="modal-close" id="closeContactModal" aria-label="Close modal">&times;</button>
+      <div class="modal-header">
+        <span class="modal-pill">💬 Global Energy HQ</span>
+        <h2 class="modal-title">Get in Touch</h2>
+        <p class="modal-subtitle">Wholesale distributions, sponsorship inquiries, or retail partnerships.</p>
+      </div>
+
+      <form class="contact-form" id="contactForm" onsubmit="event.preventDefault(); handleContactSubmit();">
+        <div class="form-group">
+          <label for="contactName">Your Name</label>
+          <input type="text" id="contactName" placeholder="e.g. Leo Vance" required>
+        </div>
+        <div class="form-group">
+          <label for="contactEmail">Business / Personal Email</label>
+          <input type="email" id="contactEmail" placeholder="leo@domain.com" required>
+        </div>
+        <div class="form-group">
+          <label for="contactMsg">Your Inquiry</label>
+          <textarea id="contactMsg" rows="3" placeholder="Tell us how we can collaborate..." required></textarea>
+        </div>
+        <button type="submit" class="modal-action-btn">
+          <span>Send Transmission</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toastNotification">
+    <div class="toast-glow"></div>
+    <span class="toast-icon">✓</span>
+    <span class="toast-text" id="toastText">Order added to cart!</span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
